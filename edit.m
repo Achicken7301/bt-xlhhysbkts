@@ -209,13 +209,13 @@ function Chuyen_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global im
-T1 =get(handles.edit1,'String');
-T1 = str2num(T1);
-T2=get(handles.edit2,'String');
-T2 = str2num(T2);
+T1 = get(handles.edit1,'String');
+T1 = str2double(T1);
+T2 = get(handles.edit2,'String');
+T2 = str2double(T2);
 im_adjust = imadjust(im, [T1/255 T2/255], [0 1]);
 axes(handles.axes3);
 imshow(im_adjust);
-handles.o=im_adjust;
+handles.o = im_adjust;
 guidata(hObject, handles);
-axes(handles.axes4);imhist(im); title('Histogram');
+axes(handles.axes4); imhist(im_adjust); title('Histogram');
