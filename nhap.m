@@ -79,16 +79,21 @@ function Browse_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 [filename, pathname] = uigetfile('*.*', 'Pick a MATLAB code file');
-    if isequal(filename,0) || isequal(pathname,0)
+    if isequal(filename, 0) || isequal(pathname, 0)
        disp('User pressed cancel')
     else
-       filename = strca(pathname,filename);
-       a = imread(filename);
+       filename = [pathname filename];
+       im = imread(filename);
+%        Check if RGB
+       if size(im, 3) == 3
+            im = rgb2gray(im);
+       end
        axes(handles.axes1);
-       imshow(a);
-       handles.o=a;
+       imshow(im);
+       handles.o=im;
        guidata(hObject, handles);
     end
+assignin('base', 'Image', im);
 
 % --- Executes on button press in Add_Noise.
 function Add_Noise_Callback(hObject, eventdata, handles)
