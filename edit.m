@@ -211,14 +211,21 @@ function Apply_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global im
 T1 = get(handles.edit1,'String');
+<<<<<<< HEAD
 T1 = str2num(T1);
 T2 = get(handles.edit2,'String');
 T2 = str2num(T2);
+=======
+T1 = str2double(T1);
+T2 = get(handles.edit2,'String');
+T2 = str2double(T2);
+>>>>>>> 525904120e0920d91d043a66e12dbdc8d673a74e
 im_adjust = imadjust(im, [T1/255 T2/255], [0 1]);
 axes(handles.axes3);
 imshow(im_adjust);
-handles.o=im_adjust;
+handles.o = im_adjust;
 guidata(hObject, handles);
+<<<<<<< HEAD
 axes(handles.axes4);imhist(im_adjust); title('Histogram');
 
 % --- Executes on button press in Select_Orginal.
@@ -282,3 +289,6 @@ function Final_Image_Callback(hObject, eventdata, handles)
 % hObject    handle to Final_Image (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+=======
+axes(handles.axes4); imhist(im_adjust); title('Histogram');
+>>>>>>> 525904120e0920d91d043a66e12dbdc8d673a74e
