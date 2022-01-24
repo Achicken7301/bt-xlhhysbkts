@@ -22,7 +22,7 @@ function varargout = Khang_Vi(varargin)
 
 % Edit the above text to modify the response to help Khang_Vi
 
-% Last Modified by GUIDE v2.5 24-Jan-2022 23:10:56
+% Last Modified by GUIDE v2.5 25-Jan-2022 00:31:21
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -227,34 +227,14 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
 end
 
 %Bài 3
-% --- Executes on button press in Select_Orginal.
-function Select_Orginal_Callback(hObject, eventdata, handles)
-% hObject    handle to Select_Orginal (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-global im_orginal;
-[filename, pathname] = uigetfile('*.*', 'Pick a MATLAB code file');
-if isequal(filename,0) || isequal(pathname,0)%help uigetfile
-   disp('User pressed cancel')
-else
-   filename = [pathname filename];
-   im_orginal = imread(filename);
-%        Check if RGB
-   if size(im_orginal, 3) == 3
-        im_orginal = rgb2gray(im_orginal);
-   end
-   axes(handles.axes5); imshow(im_orginal);
-end
-
 % --- Executes on button press in Blurred.
 function Blurred_Callback(hObject, eventdata, handles)
 % hObject    handle to Blurred (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global im;
-global blurred;
+global im blurred;
 blurred = imgaussfilt(im, 5);
-% im_blurred = imshowpair(im_orginal, blurred, 'montage');
+% im_blurred = imshowpair(im, blurred, 'montage');
 axes(handles.axes6);
 imshow(blurred);
 
@@ -263,9 +243,7 @@ function Unshape_Mask_Callback(hObject, eventdata, handles)
 % hObject    handle to Unshape_Mask (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global im;
-global blurred;
-global unsharp;
+global im blurred unsharp;
 unsharp = im - blurred;
 axes(handles.axes7);
 imshow(unsharp);
@@ -275,7 +253,7 @@ function Higher_Image_Callback(hObject, eventdata, handles)
 % hObject    handle to Higher_Image (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global im_orginal blurred unsharp im_adjust hco;
+global im_adjust hco;
 hco = im_adjust;
 axes(handles.axes8); imshow(im_adjust);
 
@@ -284,12 +262,7 @@ function Final_Image_Callback(hObject, eventdata, handles)
 % hObject    handle to Final_Image (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global im;
-global blurred;
-global unsharp;
-global im_adjust;
-global delta_value;
-global sharpened;
+global im unsharp im_adjust delta_value sharpened;
 % sharpened = hco + unsharp + I;
 delta_value = abs(im_adjust - im);
 sharpened = delta_value + unsharp + im;
@@ -338,3 +311,5 @@ function help_about_Callback(hObject, eventdata, handles)
 % hObject    handle to help_about (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
