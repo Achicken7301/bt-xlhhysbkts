@@ -22,7 +22,7 @@ function varargout = Khang_Vi(varargin)
 
 % Edit the above text to modify the response to help Khang_Vi
 
-% Last Modified by GUIDE v2.5 24-Jan-2022 23:06:59
+% Last Modified by GUIDE v2.5 24-Jan-2022 23:10:56
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -276,10 +276,10 @@ function Higher_Image_Callback(hObject, eventdata, handles)
 % hObject    handle to Higher_Image (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global im_orginal;
-global blurred;
-global unsharp;
-global hco;
+global im_orginal blurred unsharp hco;
+% global blurred;
+% global unsharp;
+% global hco;
 hco = imadjust(im_orginal, [93/255 132/255], [0 1]);
 %imshowpair(im_orginal, hco, 'montage');
 axes(handles.axes8);
@@ -312,8 +312,8 @@ function files_Callback(hObject, eventdata, handles)
 
 
 % --------------------------------------------------------------------
-function about_Callback(hObject, eventdata, handles)
-% hObject    handle to about (see GCBO)
+function help_Callback(hObject, eventdata, handles)
+% hObject    handle to help (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
@@ -321,5 +321,26 @@ function about_Callback(hObject, eventdata, handles)
 % --------------------------------------------------------------------
 function files_open_Callback(hObject, eventdata, handles)
 % hObject    handle to files_open (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global im;
+[filename, pathname] = uigetfile('*.*', 'Pick a MATLAB code file');
+if isequal(filename,0) || isequal(pathname,0)%help uigetfile
+   disp('User pressed cancel')
+else
+   filename = [pathname filename];
+        im = imread(filename);
+%  Check if RGB
+   if size(im, 3) == 3
+        im = rgb2gray(im);
+   end
+end
+assignin('base', 'Image', im);
+axes(handles.axes2); imhist(im); title('Histogram');
+axes(handles.axes1); imshow(im); title('Image');
+
+% --------------------------------------------------------------------
+function help_about_Callback(hObject, eventdata, handles)
+% hObject    handle to help_about (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
