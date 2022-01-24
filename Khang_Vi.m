@@ -22,7 +22,7 @@ function varargout = Khang_Vi(varargin)
 
 % Edit the above text to modify the response to help Khang_Vi
 
-% Last Modified by GUIDE v2.5 24-Jan-2022 22:42:31
+% Last Modified by GUIDE v2.5 24-Jan-2022 23:06:59
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -302,3 +302,24 @@ sharpened = delta_value + unsharp + im_orginal;
 %imshowpair(im_orginal, sharpened, 'montage');
 axes(handles.axes9);
 imshow(sharpened);
+
+
+% --------------------------------------------------------------------
+function files_Callback(hObject, eventdata, handles)
+% hObject    handle to files (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --------------------------------------------------------------------
+function about_Callback(hObject, eventdata, handles)
+% hObject    handle to about (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --------------------------------------------------------------------
+function files_open_Callback(hObject, eventdata, handles)
+% hObject    handle to files_open (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
