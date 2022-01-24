@@ -78,24 +78,21 @@ function Select_Image_Callback(hObject, eventdata, handles)
 % hObject    handle to Select_Image (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global im
+global im;
 [filename, pathname] = uigetfile('*.*', 'Pick a MATLAB code file');
-    if isequal(filename,0) || isequal(pathname,0)%help uigetfile
-       disp('User pressed cancel')
-    else
-       filename = [pathname filename];
-       im = imread(filename);
-%        Check if RGB
-       if size(im, 3) == 3
-            im = rgb2gray(im);
-       end
-       axes(handles.axes1);
-       imshow(im);
-       handles.o=im;
-       guidata(hObject, handles);
-    end
+if isequal(filename,0) || isequal(pathname,0)%help uigetfile
+   disp('User pressed cancel')
+else
+   filename = [pathname filename];
+   im = imread(filename);
+%  Check if RGB
+   if size(im, 3) == 3
+        im = rgb2gray(im);
+   end
+end
 assignin('base', 'Image', im);
 axes(handles.axes2); imhist(im); title('Histogram');
+axes(handles.axes1); imshow(im); title('Image');
 
 
 % --- Executes on button press in Delete.
@@ -215,10 +212,7 @@ T1 = str2double(T1);
 T2 = get(handles.edit2,'String');
 T2 = str2double(T2);
 im_adjust = imadjust(im, [T1/255 T2/255], [0 1]);
-axes(handles.axes3);
-imshow(im_adjust);
-handles.o = im_adjust;
-guidata(hObject, handles);
+axes(handles.axes3); imshow(im_adjust); title('Image');
 axes(handles.axes4);imhist(im_adjust); title('Histogram');
 
 % --- Executes on button press in Select_Orginal.
@@ -292,7 +286,16 @@ function slider1_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
+global slider1 slider2 im;
+slider1 = get(hObject,'Value');
+disp(['slider1: ' num2str(slider1)]);
+try
+    im_adjust = imadjust(im, [slider1/255 slider2/255], [0 1]);
+    axes(handles.axes3); imshow(im_adjust); title('Image');
+    axes(handles.axes4);imhist(im_adjust); title('Histogram');
+catch
+    disp('IMADJUST: LOW_IN must be less than HIGH_IN.');
+end
 
 % --- Executes during object creation, after setting all properties.
 function slider1_CreateFcn(hObject, eventdata, handles)
@@ -314,7 +317,17 @@ function slider2_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
+global slider1 slider2 im;
+slider2 = get(hObject,'Value');
+% Print error to the termnial
+disp(['slider1: ' num2str(slider2)]);
+try
+    im_adjust = imadjust(im, [slider1/255 slider2/255], [0 1]);
+    axes(handles.axes3); imshow(im_adjust); title('Image');
+    axes(handles.axes4);imhist(im_adjust); title('Histogram');
+catch
+    disp('IMADJUST: LOW_IN must be less than HIGH_IN.');
+end
 
 % --- Executes during object creation, after setting all properties.
 function slider2_CreateFcn(hObject, eventdata, handles)
