@@ -100,7 +100,7 @@ end
 assignin('base', 'Image', im);
 axes(handles.axes2); imhist(im); title('Histogram');
 axes(handles.axes1); imshow(im); title('Image');
-
+axes(handles.axes5); imshow(im);
 
 function edit1_Callback(hObject, eventdata, handles)
 % hObject    handle to edit1 (see GCBO)
@@ -170,7 +170,7 @@ function slider1_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-global slider1 slider2 im;
+global slider1 slider2 im im_adjust;
 slider1 = get(hObject,'Value');
 disp(['slider1: ' num2str(slider1)]);
 try
@@ -202,7 +202,7 @@ function slider2_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-global slider1 slider2 im;
+global slider1 slider2 im im_adjust;
 slider2 = get(hObject,'Value');
 % Print error to the termnial
 disp(['slider1: ' num2str(slider2)]);
@@ -234,27 +234,26 @@ function Select_Orginal_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global im_orginal;
 [filename, pathname] = uigetfile('*.*', 'Pick a MATLAB code file');
-    if isequal(filename,0) || isequal(pathname,0)%help uigetfile
-       disp('User pressed cancel')
-    else
-       filename = [pathname filename];
-       im_orginal = imread(filename);
+if isequal(filename,0) || isequal(pathname,0)%help uigetfile
+   disp('User pressed cancel')
+else
+   filename = [pathname filename];
+   im_orginal = imread(filename);
 %        Check if RGB
-       if size(im_orginal, 3) == 3
-            im_orginal = rgb2gray(im_orginal);
-       end
-       axes(handles.axes5);
-       imshow(im_orginal);
-    end
+   if size(im_orginal, 3) == 3
+        im_orginal = rgb2gray(im_orginal);
+   end
+   axes(handles.axes5); imshow(im_orginal);
+end
 
 % --- Executes on button press in Blurred.
 function Blurred_Callback(hObject, eventdata, handles)
 % hObject    handle to Blurred (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global im_orginal;
+global im;
 global blurred;
-blurred = imgaussfilt(im_orginal, 5);
+blurred = imgaussfilt(im, 5);
 % im_blurred = imshowpair(im_orginal, blurred, 'montage');
 axes(handles.axes6);
 imshow(blurred);
@@ -264,10 +263,10 @@ function Unshape_Mask_Callback(hObject, eventdata, handles)
 % hObject    handle to Unshape_Mask (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global im_orginal;
+global im;
 global blurred;
 global unsharp;
-unsharp = im_orginal - blurred;
+unsharp = im - blurred;
 axes(handles.axes7);
 imshow(unsharp);
 
@@ -276,30 +275,24 @@ function Higher_Image_Callback(hObject, eventdata, handles)
 % hObject    handle to Higher_Image (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global im_orginal blurred unsharp hco;
-% global blurred;
-% global unsharp;
-% global hco;
-hco = imadjust(im_orginal, [93/255 132/255], [0 1]);
-%imshowpair(im_orginal, hco, 'montage');
-axes(handles.axes8);
-imshow(hco);
+global im_orginal blurred unsharp im_adjust hco;
+hco = im_adjust;
+axes(handles.axes8); imshow(im_adjust);
 
 % --- Executes on button press in Final_Image.
 function Final_Image_Callback(hObject, eventdata, handles)
 % hObject    handle to Final_Image (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global im_orginal;
+global im;
 global blurred;
 global unsharp;
-global hco;
+global im_adjust;
 global delta_value;
 global sharpened;
 % sharpened = hco + unsharp + I;
-delta_value = hco - im_orginal;
-sharpened = delta_value + unsharp + im_orginal;
-%imshowpair(im_orginal, sharpened, 'montage');
+delta_value = abs(im_adjust - im);
+sharpened = delta_value + unsharp + im;
 axes(handles.axes9);
 imshow(sharpened);
 
@@ -338,6 +331,7 @@ end
 assignin('base', 'Image', im);
 axes(handles.axes2); imhist(im); title('Histogram');
 axes(handles.axes1); imshow(im); title('Image');
+axes(handles.axes5); imshow(im);
 
 % --------------------------------------------------------------------
 function help_about_Callback(hObject, eventdata, handles)
