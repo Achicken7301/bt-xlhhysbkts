@@ -22,7 +22,7 @@ function varargout = Khang_Vi(varargin)
 
 % Edit the above text to modify the response to help Khang_Vi
 
-% Last Modified by GUIDE v2.5 25-Jan-2022 00:31:21
+% Last Modified by GUIDE v2.5 25-Jan-2022 22:49:46
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -233,7 +233,10 @@ function Blurred_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global im blurred;
-blurred = imgaussfilt(im, 5);
+sigma = get(handles.edit3,'String');
+sigma = str2double(sigma);
+blurred = imgaussfilt(im,sigma)
+%blurred = imgaussfilt(im, 5);
 % im_blurred = imshowpair(im, blurred, 'montage');
 axes(handles.axes6);
 imshow(blurred);
@@ -313,3 +316,27 @@ function help_about_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
+
+
+
+function edit3_Callback(hObject, eventdata, handles)
+% hObject    handle to edit3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% Hints: get(hObject,'String') returns contents of edit3 as text
+%        str2double(get(hObject,'String')) returns contents of edit3 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit3_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
