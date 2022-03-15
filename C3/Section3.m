@@ -15,8 +15,8 @@ function varargout = Section3(varargin)
 %      unrecognized property name or invalid value makes property application
 %      stop.  All inputs are passed to Section3_OpeningFcn via varargin.
 %
-%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
-%      instance to run (singleton)".
+%      *See GUI Options on GUIDE's Tools menu.  Choose 'GUI allows only one
+%      instance to run (singleton)'.
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
@@ -57,8 +57,8 @@ handles.output = hObject;
 set(handles.axes1,'XColor', 'none','YColor','none');
 set(handles.axes2,'XColor', 'none','YColor','none');
 set(handles.axes3,'XColor', 'none','YColor','none');
-set(handles.slider1,"visible","off")
-set(handles.slider2,"visible","off")
+set(handles.slider1,'visible','off')
+set(handles.slider2,'visible','off')
 %Add path to get function in path
 addpath(genpath('Logic function'));
 addpath(genpath('UI function'));
@@ -89,20 +89,20 @@ function listbox1_Callback(hObject, eventdata, handles)
 % Hints: contents = cellstr(get(hObject,'String')) returns listbox1 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from listbox1
     global  I option BW;
-    value=get(handles.listbox1,"Value");
-    listbox=get(handles.listbox1,"string");
+    value=get(handles.listbox1,'Value');
+    listbox=get(handles.listbox1,'string');
     option=(listbox{value});
-                assignin("base","option",listbox)
+                assignin('base','option',listbox)
 
     switch(option)
-        case "One Level"
-            set(handles.slider1,"visible","on");
-        case "Multi Level"
-            set(handles.slider1,"visible","on");
-            set(handles.slider2,"visible","on");
-        case "Auto thresholding "
-            set(handles.slider1,"visible","off");
-            set(handles.slider2,"visible","off");
+        case 'One Level'
+            set(handles.slider1,'visible','on');
+        case 'Multi Level'
+            set(handles.slider1,'visible','on');
+            set(handles.slider2,'visible','on');
+        case 'Auto thresholding '
+            set(handles.slider1,'visible','off');
+            set(handles.slider2,'visible','off');
             BW=Thresh_holding(I,option);
             axes(handles.axes3)
             imshow(BW)
@@ -131,22 +131,24 @@ function slider1_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
     global I count h slider_value1 option BW;
-    slider_value1=RoundSliderValue(get(handles.slider1,"value"))
-    set(handles.slider1,"value",slider_value1);
+    slider_value1=RoundSliderValue(get(handles.slider1,'value'))
+    set(handles.slider1,'value',slider_value1);
     x_data=slider_value1*ones(1,length(count));
-    if(option=="One Level")
+    True = strcmp(option, 'One Level');
+%     if(option=='One Level')
+    if(True == 1)
         BW=Thresh_holding(I,option,slider_value1);
-        assignin("base","BW",BW);
-        axes(handles.axes3)
-        imshow(BW)
+        assignin('base','BW',BW);
+        axes(handles.axes3);
+        imshow(BW);
     end
     if isempty(h)
         axes(handles.axes2);
         hold on
         %Generate x_data to plot
-        h=plot(x_data,count,"LineWidth",2);
+        h=plot(x_data,count,'LineWidth',2);
     else
-        set(h,"XData",x_data);
+        set(h,'XData',x_data);
     end
 % --- Executes during object creation, after setting all properties.
 function slider1_CreateFcn(hObject, eventdata, handles)
@@ -169,7 +171,7 @@ clear global
 cla;
 global I count;
 try
-    [file_X, folder] = uigetfile("*");
+    [file_X, folder] = uigetfile('*');
     path = [folder, file_X];
     I = imread(path);
     if size(I, 3) == 3
@@ -178,12 +180,12 @@ try
     %%Show Origianl Image
     axes(handles.axes1);
     imshow(I);
-    title("Original Image");
+    title('Original Image');
     %%Show Histogram 
     axes(handles.axes2);
     [count brilocalation]=imhist(I);
     imhist(I);
-    title("Histogram");
+    title('Histogram');
 catch
     s = sprintf('Image not found! Please add an image .dcm, .png, .jpg');
 questdlg(s,...
@@ -205,8 +207,8 @@ function slider2_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
    global I count k slider_value1 slider_value2 option BW;
-    slider_value2=RoundSliderValue(get(handles.slider2,"value"));
-    set(handles.slider2,"value",slider_value2);
+    slider_value2=RoundSliderValue(get(handles.slider2,'value'));
+    set(handles.slider2,'value',slider_value2);
     x_data=slider_value2*ones(1,length(count));
     BW=Thresh_holding(I,option,slider_value1,slider_value2);
     axes(handles.axes3)
@@ -215,9 +217,9 @@ function slider2_Callback(hObject, eventdata, handles)
         axes(handles.axes2);
         hold on
         %Generate x_data to plot
-        k=plot(x_data,count,"LineWidth",2);
+        k=plot(x_data,count,'LineWidth',2);
     else
-        set(k,"XData",x_data);
+        set(k,'XData',x_data);
     end
 function slider2_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to slider2 (see GCBO)

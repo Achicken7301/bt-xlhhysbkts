@@ -2,12 +2,12 @@
 % (I - f1)/(f2 - f1)
 close all; % Class all figures
 
-% [file_X, folder] = uigetfile({'*.dcm; *.png; *.jpg'}, 'MultiSelect', 'on');
-% file = [folder file_X];
-% I = imread(file);
+[file_X, folder] = uigetfile({'*.dcm; *.png; *.jpg'}, 'MultiSelect', 'on');
+file = [folder file_X];
+I = imread(file);
 
-a = 'H:\My Drive\Khang\BK\212\AS3055 - xlhhysbkts\sample data _ chapter 02\BW.png';
-I = imread(a);
+% a = 'H:\My Drive\Khang\BK\212\AS3055 - xlhhysbkts\sample data _ chapter 02\BW.png';
+% I = imread(a);
 
 
 [row, col]= size(I);
@@ -47,7 +47,7 @@ hco = imadjust(I, [93/255 132/255], [0 1]);
 imshowpair(I, hco, 'montage');
 %% sharpened final image
 
-% sharpened = hco + unsharp + I;
+sharpened = hco + unsharp + I;
 delta_value = hco - I;
-sharpened = delta_value + unsharp + I;
+% sharpened = delta_value + unsharp + I;
 imshowpair(I, sharpened, 'montage');

@@ -90,8 +90,8 @@ global im;
 if isequal(filename,0) || isequal(pathname,0)%help uigetfile
    disp('User pressed cancel')
 else
-   filename = [pathname filename];
-        im = imread(filename);
+    filename = [pathname filename];
+    im = imread(filename);
 %  Check if RGB
    if size(im, 3) == 3
         im = rgb2gray(im);
