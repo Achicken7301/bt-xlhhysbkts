@@ -7,7 +7,6 @@ addpath('H:\My Drive\Khang\BK\212\AS3055 - xlhhysbkts\BTL');
 % [file_X, folder] = uigetfile({'*.*'}, 'MultiSelect', 'on');
 % file = [folder file_X];
 % I = imread(file);
-clear all;
 I = imread('16_test.tif');
 if size(I, 3) == 3
     I = rgb2gray(I);
@@ -15,23 +14,22 @@ end
 % adapthisteq = adapthisteq(I);
 % imsharpen = imsharpen(adapthisteq);
 figure, imshow(I), title('Anh goc');
-%% sharpen
+%% Loc gauss
 
+gauss = imgaussfilt(imsharpen, 5);
+imshowpair(imsharpen, gauss, 'montage');
+%% sharpen
 adapthisteq = adapthisteq(I);
 imsharpen = imsharpen(adapthisteq);
 imshow(imsharpen);
-%% inverted contrast
-
-inverted_contrast = abs(255 - imsharpen);
-imshow(inverted_contrast);
 %% Loc median
 
-median = medfilt2(inverted_contrast, [5 5]);
-imshowpair(inverted_contrast, median, 'montage');
+median = medfilt2(I, [3 3]);
+imshowpair(I, median, 'montage');
 %% Lay biên
-[BWs, nguong] = edge(median, 'Sobel'); 
+[BWs, nguong] = edge(I, 'sobel'); 
 heso = .4;
-BWs = edge(median, 'Sobel', nguong*heso); 
+BWs = edge(median, 'sobel', nguong*heso); 
 % BWs = edge(median, 'sobel'); 
 figure, imshow(BWs), title('Mat na chua bien');
 

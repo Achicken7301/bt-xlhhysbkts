@@ -1,4 +1,4 @@
-function J=regiongrowing(I,x,y,t)
+function J=regiongrowing(I,x,y,reg_maxdist)
 % This function performs "region growing" in an image from a specified
 % seedpoint (x,y)
 %
@@ -25,7 +25,7 @@ function J=regiongrowing(I,x,y,t)
 %
 % Author: D. Kroon, University of Twente
 
-if(exist('reg_maxdist','var')==0), reg_maxdist=0.7; end
+if(exist('reg_maxdist','var')==0), reg_maxdist=0.2; end
 if(exist('y','var')==0), figure, imshow(I,[]); [y,x]=getpts; y=round(y(1)); x=round(x(1)); end
 
 J = zeros(size(I)); % Output 
@@ -83,7 +83,6 @@ end
 % Return the segmented area as logical matrix
 J=J>1;
 
-figure; imshowpair(I, J, 'montage')
 
 
 

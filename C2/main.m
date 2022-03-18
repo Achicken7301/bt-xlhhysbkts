@@ -27,12 +27,14 @@ imtool(im_adjust);
 % subplot(2,1,1); 
 % subplot(2,1,2); imhist(im_adjust); title('imadjust');
 %% Bai 3
-[file_X, folder] = uigetfile({'*.dcm; *.png; *.jpg'}, 'MultiSelect', 'on');
+[file_X, folder] = uigetfile({'*.*'}, 'MultiSelect', 'on');
 file = [folder file_X];
 I = imread(file);
 if size(I, 3) == 3
     I = rgb2gray(I);
 end
+I = im2double(I);
+% I = rgb2lab(I);
 %% Loc Gauss
 blurred = imgaussfilt(I, 5);
 imshowpair(I, blurred, 'montage');
