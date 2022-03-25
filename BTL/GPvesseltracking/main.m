@@ -45,7 +45,7 @@ diameter = 0;
 
 %% channel G in RGB color space is selected
 addpath('H:\My Drive\Khang\BK\212\AS3055 - xlhhysbkts\BTL');
-Image = imread('anhCoMachMau.jpg');
+Image = imread('16_test.tif');
 input_image = double(Image(:, :, 2));
 
 %% seed point selection
@@ -55,15 +55,15 @@ direction = -125;
 diameter = 5;
 
 % uncomment this part to select desired seed point manually
-disp('select two initial points inside the vessel you want to track and')
-disp('two points on the edge of blood vessel to compute initial diameter')
-disp('press Enter to continue')
-pause
-[seedpoint_position, initial_direction, vessel_initial_diameter] = seed_point_selection(input_image);
-centerpoints(1,1) = seedpoint_position(1,1);
-centerpoints(1,2) = seedpoint_position(1,2);
-direction = initial_direction;
-diameter = vessel_initial_diameter;
+% disp('select two initial points inside the vessel you want to track and')
+% disp('two points on the edge of blood vessel to compute initial diameter')
+% disp('press Enter to continue')
+% pause
+% [seedpoint_position, initial_direction, vessel_initial_diameter] = seed_point_selection(input_image);
+% centerpoints(1,1) = seedpoint_position(1,1);
+% centerpoints(1,2) = seedpoint_position(1,2);
+% direction = initial_direction;
+% diameter = vessel_initial_diameter;
 
 vessel_edge(end, 1) = centerpoints(1, 1) + (diameter / 2) * cosd(direction + 90);
 vessel_edge(end, 2) = centerpoints(1, 2) - (diameter / 2) * sind(direction + 90);
