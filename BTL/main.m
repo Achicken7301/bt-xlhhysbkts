@@ -1,10 +1,10 @@
 clc
-clear all
+clear global
 close all
  
-Test_Image = imread('5_right.jpeg');
-Resized_Image = imresize(Test_Image, 0.15);
-
+Image = imread('16_test.tif');
+% Resized_Image = imresize(Test_Image, 0.15);
+Resized_Image = Image;
 if size(Resized_Image, 3) == 3
     Resized_Image = rgb2gray(Resized_Image);
 end
@@ -16,7 +16,7 @@ imshow(Resized_Image);
 % adapthisteq
 I_adjust_contrast_adapthisteq = adapthisteq(Resized_Image);
 figure;imshowpair(Resized_Image, I_adjust_contrast_adapthisteq, 'montage');
-title('adjust contrast adapthisteq');
+title('Adjust contrast with adapthisteq');
 %% adjust contrast histeq
 
 % % histeq
@@ -36,20 +36,14 @@ title('adjust contrast adapthisteq');
 
 %% or gauss filter
 
-Filtered_Image = imgaussfilt3(I_adjust_contrast_adapthisteq, 4);
-% Filtered_Image = imgaussfilt3(i_sharpen, 4);
+Filtered_Image = imgaussfilt(I_adjust_contrast_adapthisteq, 2);
 figure, imshowpair(I_adjust_contrast_adapthisteq, Filtered_Image, 'montage');
 % figure, imshowpair(i_sharpen, Filtered_Image, 'montage');
 title('gauss filter')
 %% unsharp
 
-% unsharp imadjust_contrast
-% unsharp = imsubtract(Filtered_Image, I_adjust_contrast_imadjust);
-% figure, imshowpair(Filtered_Image, unsharp, 'montage');
-% title('unsharp Image')
-
-% unsharp adapthisteq_contrast
 unsharp = imsubtract(Filtered_Image, I_adjust_contrast_adapthisteq);
+
 figure, imshow(unsharp);
 title('unsharp Image')
 %% Mask overlay
@@ -69,9 +63,7 @@ Clean_Image = bwareaopen(Binary_Image, 12);
 % figure, imshowpair(Binary_Image, Clean_Image, 'montage');
 figure, imshow(Clean_Image);
 title('Clean Image')
-%% lam day bien
+%% Show blood vessel in original image.
 
-% se90 = strel('line', 3, 90);
-% se0 = strel('line', 3, 0);
-% BWsdil = imdilate(Clean_Image, [se90 se0]);
-% figure, imshowpair(Clean_Image, BWsdil, 'montage'), title('Mat na chua bien duoc lam day len');
+regconize = Resized_Image + im2uint8(Clean_Image);
+imshowpair(Resized_Image, regconize, 'montage');
